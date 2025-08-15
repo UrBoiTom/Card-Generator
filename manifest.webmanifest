@@ -1,6 +1,6 @@
 {
   "name": "Card Generator",
-  "short_name": "CG",
+  "short_name": "Card Generator",
   "description": "AI powered character card generator",
   "scope": "/Card-Generator/",
   "start_url": "/Card-Generator/",
