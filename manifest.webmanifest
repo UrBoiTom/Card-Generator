@@ -1,0 +1,17 @@
+{
+  "name": "Card Generator",
+  "short_name": "CG",
+  "description": "AI powered character card generator",
+  "scope": "/Card-Generator/",
+  "start_url": "/Card-Generator/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone", 
+  "icons": [
+      {
+        "src": "/Card-Generator/icon.png",
+        "type": "image/png",
+        "sizes": "700x700"
+      }
+  ]
+}
