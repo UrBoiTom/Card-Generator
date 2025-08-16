@@ -4,11 +4,12 @@
   <title>AI Character Card Generator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#4285f4"/>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
   <link rel="canonical" href="https://urboitom.github.io/Card-Generator/" />
-  <link rel="manifest" href="/Card-Generator/manifest.webmanifest">
+  <link rel="manifest" href="manifest.webmanifest">
   <meta charset="UTF-8">
 
+
   <script type="importmap">
     {
       "imports": {
@@ -16,8 +17,8 @@
       }
     }
   </script>
-  <script type="module" crossorigin src="index.js"></script>
-  <link rel="stylesheet" crossorigin href="index.css">
+  <script type="module" crossorigin src="./assets/index-DFbPRLr4.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DuMB35VY.css">
 </head>
 <body>
   <div id="app-container">
@@ -86,7 +87,7 @@
   <script>
       if (navigator.serviceWorker) {
         navigator.serviceWorker.register (
-          '/Card-Generator/serviceworker.js',
+          'serviceworker.js',
           {scope: '/Card-Generator/'}
         )
       }
