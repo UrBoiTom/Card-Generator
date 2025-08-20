@@ -1,6 +1,6 @@
 var GHPATH = '/Card-Generator';
 var APP_PREFIX = 'gppwa_';
-var VERSION = 'version_003';
+var VERSION = 'version_004';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
@@ -22,24 +22,25 @@ self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       console.log('Installing cache : ' + CACHE_NAME);
-      return cache.addAll(URLS)
+      return cache.addAll(URLS);
+    }).then(function() {
+      return self.skipWaiting();
     })
-  )
-})
+  );
+});
 
 self.addEventListener('activate', function (e) {
   e.waitUntil(
-    caches.keys().then(function (keyList) {
-      var cacheWhitelist = keyList.filter(function (key) {
-        return key.indexOf(APP_PREFIX)
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then(function (keyList) {
+        return Promise.all(keyList.map(function (key) {
+          if (key.startsWith(APP_PREFIX) && key !== CACHE_NAME) {
+            console.log('Deleting old cache : ' + key);
+            return caches.delete(key);
+          }
+        }));
       })
-      cacheWhitelist.push(CACHE_NAME);
-      return Promise.all(keyList.map(function (key, i) {
-        if (cacheWhitelist.indexOf(key) === -1) {
-          console.log('Deleting cache : ' + keyList[i] );
-          return caches.delete(keyList[i])
-        }
-      }))
-    })
-  )
-})
+    ])
+  );
+});
