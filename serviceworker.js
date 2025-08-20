@@ -1,51 +1,70 @@
-var GHPATH = '/Card-Generator';
-var APP_PREFIX = 'gppwa_';
-var VERSION = 'version_002';
-var URLS = [    
+const GHPATH = '/Card-Generator';
+const APP_PREFIX = 'gppwa_';
+const VERSION = 'version_005'; // Increment the version to trigger an update
+const CACHE_NAME = APP_PREFIX + VERSION;
+
+// The list of URLs for the "app shell" that will be cached on install.
+const APP_SHELL_URLS = [
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
-  `${GHPATH}/assets/*`,
-  `${GHPATH}/icons/*`
-]
+  `${GHPATH}/manifest.webmanifest`,
+  `${GHPATH}/icons/favicon.ico`,
+  `${GHPATH}/icons/icon.png`,
+];
 
-var CACHE_NAME = APP_PREFIX + VERSION
-self.addEventListener('fetch', function (e) {
+// Respond with cached resources, falling back to the network.
+// This strategy also dynamically caches new assets as they are requested.
+self.addEventListener('fetch', (e) => {
+  // We only want to cache GET requests
+  if (e.request.method !== 'GET') {
+    return;
+  }
+
   console.log('Fetch request : ' + e.request.url);
   e.respondWith(
-    caches.match(e.request).then(function (request) {
-      if (request) { 
-        console.log('Responding with cache : ' + e.request.url);
-        return request
-      } else {       
-        console.log('File is not cached, fetching : ' + e.request.url);
-        return fetch(e.request)
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cachedResponse = await cache.match(e.request);
+      if (cachedResponse) {
+        console.log('Responding with cache: ' + e.request.url);
+        return cachedResponse;
       }
-    })
-  )
-})
 
-self.addEventListener('install', function (e) {
+      console.log('File is not cached, fetching: ' + e.request.url);
+      const networkResponse = await fetch(e.request);
+
+      // If the fetch is successful, clone the response and store it in the cache.
+      // We only cache requests to our own origin to avoid caching third-party assets.
+      if (networkResponse && networkResponse.status === 200 && new URL(e.request.url).origin === self.location.origin) {
+        console.log('Caching new resource: ' + e.request.url);
+        cache.put(e.request, networkResponse.clone());
+      }
+      return networkResponse;
+    })
+  );
+});
+
+// Cache the app shell on install
+self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
+    caches.open(CACHE_NAME).then((cache) => {
       console.log('Installing cache : ' + CACHE_NAME);
-      return cache.addAll(URLS)
+      return cache.addAll(APP_SHELL_URLS);
     })
-  )
-})
+  );
+});
 
-self.addEventListener('activate', function (e) {
+// Delete old caches on activate
+self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(function (keyList) {
-      var cacheWhitelist = keyList.filter(function (key) {
-        return key.indexOf(APP_PREFIX)
-      })
-      cacheWhitelist.push(CACHE_NAME);
-      return Promise.all(keyList.map(function (key, i) {
-        if (cacheWhitelist.indexOf(key) === -1) {
-          console.log('Deleting cache : ' + keyList[i] );
-          return caches.delete(keyList[i])
-        }
-      }))
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          if (key.startsWith(APP_PREFIX) && key !== CACHE_NAME) {
+            console.log('Deleting old cache : ' + key);
+            return caches.delete(key);
+          }
+        })
+      );
     })
-  )
-})
+  );
+});
