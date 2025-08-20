@@ -1,6 +1,6 @@
 var GHPATH = '/Card-Generator';
 var APP_PREFIX = 'gppwa_';
-var VERSION = 'version_002';
+var VERSION = 'version_003';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
@@ -12,17 +12,11 @@ var CACHE_NAME = APP_PREFIX + VERSION
 self.addEventListener('fetch', function (e) {
   console.log('Fetch request : ' + e.request.url);
   e.respondWith(
-    caches.match(e.request).then(function (request) {
-      if (request) { 
-        console.log('Responding with cache : ' + e.request.url);
-        return request
-      } else {       
-        console.log('File is not cached, fetching : ' + e.request.url);
-        return fetch(e.request)
-      }
+    fetch(e.request).catch(function() {
+      return caches.match(e.request);
     })
-  )
-})
+  );
+});
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
