@@ -17,7 +17,7 @@
       }
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-DC28R0ym.js"></script>
+  <script type="module" crossorigin src="./assets/index-D6iZdHM5.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BNXB4cbQ.css">
 </head>
 <body>
@@ -51,6 +51,10 @@
           <br>
           <input type="checkbox" id="retry-on-error">
           <p style="font-size: 0.75em;">Warning: Retry on error may cause major issues. Only use this if you know what you are doing.</p>
+        <details>
+          <summary>Card Format:</summary>
+          <textarea id="card-format"></textarea>
+        </details>
       </details>
       <label for="user-prompt">Character Details:</label>
       <textarea id="user-prompt" placeholder="e.g., A tired detective, haunted by a past case..."></textarea>
@@ -89,7 +93,7 @@
       </div>
     </div>
   </div>
-  <footer>Disclaimer:<br>This page is hosted with github pages, which means no data gets shared, it all runs on your device and none gets saved anywhere other than clientside.<br>Nobody else can see your data without acces to your device.<br><button type="button" onclick="document.querySelector('footer').style = 'display: none'">Ok</button></footer>
+  <footer id="disclaimer-footer">Disclaimer:<br>This page is hosted with github pages, which means no data gets shared, it all runs on your device and none gets saved anywhere other than clientside.<br>Nobody else can see your data without acces to your device.<br><button type="button" id="disclaimer-button">Ok</button></footer>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
