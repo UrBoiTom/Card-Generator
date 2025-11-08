@@ -20,25 +20,25 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  console.log('Fetch request : ' + e.request.url);
+  // For navigation requests, use a network-first strategy.
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // For all other requests, use a cache-first strategy.
   e.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(e.request);
-      if (cachedResponse) {
-        console.log('Responding with cache: ' + e.request.url);
-        return cachedResponse;
-      }
-
-      console.log('File is not cached, fetching: ' + e.request.url);
-      const networkResponse = await fetch(e.request);
-
-      // If the fetch is successful, clone the response and store it in the cache.
-      // We only cache requests to our own origin to avoid caching third-party assets.
-      if (networkResponse && networkResponse.status === 200 && new URL(e.request.url).origin === self.location.origin) {
-        console.log('Caching new resource: ' + e.request.url);
-        cache.put(e.request, networkResponse.clone());
-      }
-      return networkResponse;
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request).then((response) => {
+        // We only cache requests to our own origin to avoid caching third-party assets.
+        if (response && response.status === 200 && new URL(e.request.url).origin === self.location.origin) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, responseToCache));
+        }
+        return response;
+      });
     })
   );
 });
