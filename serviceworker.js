@@ -45,12 +45,14 @@ self.addEventListener('fetch', (e) => {
 
 // Cache the app shell on install
 self.addEventListener('install', (e) => {
+  self.skipWaiting(); // Force the waiting service worker to become the active service worker.
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('Installing cache : ' + CACHE_NAME);
       return cache.addAll(APP_SHELL_URLS);
     })
   );
+
 });
 
 // Delete old caches on activate
@@ -66,5 +68,5 @@ self.addEventListener('activate', (e) => {
         })
       );
     })
-  );
+  ).then(() => self.clients.claim()) // Take control of all open clients.
 });
