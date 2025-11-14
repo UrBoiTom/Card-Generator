@@ -5,18 +5,17 @@
  */
 
 const CACHE_NAME = 'ai-character-card-generator-v1.1';
-const BASE_PATH = '/Card-Generator';
 
 // List of files to cache.
 const urlsToCache = [
-  `${BASE_PATH}/`,
-  `${BASE_PATH}/index.html`,
-  `${BASE_PATH}/index.js`,
-  `${BASE_PATH}/index.css`,
-  `${BASE_PATH}/manifest.webmanifest`,
-  `${BASE_PATH}/icons/favicon.ico`,
-  `${BASE_PATH}/icons/copy.svg`,
-  `${BASE_PATH}/icons/icon.png`,
+  './',
+  './index.html',
+  './index.js',
+  './index.css',
+  './manifest.webmanifest',
+  './icons/favicon.ico',
+  './icons/copy.svg',
+  './icons/icon.png',
 ];
 
 // Install event: cache the app shell.
