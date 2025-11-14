@@ -10,10 +10,9 @@ const BASE_PATH = '/Card-Generator';
 // List of files to cache.
 const urlsToCache = [
   `${BASE_PATH}/`,
-  `${BASE_PATH}/index.html`,
-  `${BASE_PATH}/index.js`,
-  `${BASE_PATH}/index.css`,
   `${BASE_PATH}/manifest.webmanifest`,
+  // Note: index.html is cached by the '/' route.
+  // The hashed JS and CSS files will be cached on first visit by the 'fetch' event listener.
   `${BASE_PATH}/icons/favicon.ico`,
   `${BASE_PATH}/icons/copy.svg`,
   `${BASE_PATH}/icons/icon.png`,
