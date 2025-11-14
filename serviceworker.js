@@ -32,11 +32,8 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(e.request).then((response) => {
       return response || fetch(e.request).then((response) => {
-        // We only cache requests to our own origin to avoid caching third-party assets.
-        if (response && response.status === 200 && new URL(e.request.url).origin === self.location.origin) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, responseToCache));
-        }
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, responseToCache));
         return response;
       });
     })
@@ -67,6 +64,6 @@ self.addEventListener('activate', (e) => {
           }
         })
       );
-    })
-  ).then(() => self.clients.claim()) // Take control of all open clients.
+    }).then(() => self.clients.claim())
+  );
 });
