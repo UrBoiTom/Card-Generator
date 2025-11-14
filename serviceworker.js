@@ -1,70 +1,64 @@
-const GHPATH = '/Card-Generator';
-const APP_PREFIX = 'gppwa_';
-const VERSION = 'version_005'; // Increment the version to trigger an update
-const CACHE_NAME = APP_PREFIX + VERSION;
+/**
+ * @license
+ * Copyright 2025 UrBoiTom_
+ * SPDX-License-Identifier: CC-BY-ND-4.0
+ */
 
-// The list of URLs for the "app shell" that will be cached on install.
-const APP_SHELL_URLS = [
-  `${GHPATH}/`,
-  `${GHPATH}/index.html`,
-  `${GHPATH}/manifest.webmanifest`,
-  `${GHPATH}/icons/favicon.ico`,
-  `${GHPATH}/icons/icon.png`,
+const CACHE_NAME = 'ai-character-card-generator-v1.1';
+const BASE_PATH = '/Card-Generator';
+
+// List of files to cache.
+const urlsToCache = [
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/index.js`,
+  `${BASE_PATH}/index.css`,
+  `${BASE_PATH}/manifest.webmanifest`,
+  `${BASE_PATH}/icons/favicon.ico`,
+  `${BASE_PATH}/icons/copy.svg`,
+  `${BASE_PATH}/icons/icon.png`,
 ];
 
-// Respond with cached resources, falling back to the network.
-// This strategy also dynamically caches new assets as they are requested.
-self.addEventListener('fetch', (e) => {
-  // We only want to cache GET requests
-  if (e.request.method !== 'GET') {
-    return;
-  }
-
-  console.log('Fetch request : ' + e.request.url);
-  e.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(e.request);
-      if (cachedResponse) {
-        console.log('Responding with cache: ' + e.request.url);
-        return cachedResponse;
-      }
-
-      console.log('File is not cached, fetching: ' + e.request.url);
-      const networkResponse = await fetch(e.request);
-
-      // If the fetch is successful, clone the response and store it in the cache.
-      // We only cache requests to our own origin to avoid caching third-party assets.
-      if (networkResponse && networkResponse.status === 200 && new URL(e.request.url).origin === self.location.origin) {
-        console.log('Caching new resource: ' + e.request.url);
-        cache.put(e.request, networkResponse.clone());
-      }
-      return networkResponse;
-    })
+// Install event: cache the app shell.
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('Opened cache');
+        // Use addAll to fetch and cache all the specified resources.
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-// Cache the app shell on install
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Installing cache : ' + CACHE_NAME);
-      return cache.addAll(APP_SHELL_URLS);
-    })
-  );
-});
-
-// Delete old caches on activate
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keyList) => {
+// Activate event: clean up old caches.
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        keyList.map((key) => {
-          if (key.startsWith(APP_PREFIX) && key !== CACHE_NAME) {
-            console.log('Deleting old cache : ' + key);
-            return caches.delete(key);
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
           }
         })
       );
     })
+  );
+});
+
+// Fetch event: serve assets from cache if available.
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+        // Not in cache - fetch from network
+        return fetch(event.request);
+      })
   );
 });
