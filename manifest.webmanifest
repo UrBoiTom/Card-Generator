@@ -9,7 +9,7 @@
   "display": "standalone", 
   "icons": [
       {
-        "src": "/icons/icon.png",
+        "src": "/Card-Generator/icons/icon.png",
         "type": "image/png",
         "sizes": "700x700"
       }
