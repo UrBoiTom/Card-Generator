@@ -19,8 +19,8 @@
       }
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-BzoX5Krr.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-C6pEBkB6.css">
+  <script type="module" crossorigin src="/Card-Generator/assets/index-BzoX5Krr.js"></script>
+  <link rel="stylesheet" crossorigin href="/Card-Generator/assets/index-C6pEBkB6.css">
 </head>
 <body>
   <div id="app-container">
@@ -118,7 +118,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        const serviceWorkerPath = 'serviceworker.js';
+        const serviceWorkerPath = '/Card-Generator/serviceworker.js';
         navigator.serviceWorker.register(serviceWorkerPath)
           .then((registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);

@@ -2,14 +2,14 @@
   "name": "Card Generator",
   "short_name": "Card Generator",
   "description": "AI powered character card generator",
-  "scope": ".",
-  "start_url": ".",
+  "scope": "/Card-Generator/",
+  "start_url": "/Card-Generator/",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "display": "standalone", 
   "icons": [
       {
-        "src": "icons/icon.png",
+        "src": "/Card-Generator/icons/icon.png",
         "type": "image/png",
         "sizes": "700x700"
       }
