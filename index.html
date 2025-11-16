@@ -37,8 +37,8 @@
       }
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-BzoX5Krr.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-C6pEBkB6.css">
+  <script type="module" crossorigin src="./assets/index-DbsnDUZa.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-3CKol5_e.css">
 </head>
 <body>
   <div id="app-container">
@@ -97,12 +97,17 @@
         </details>
       </details>
       <label for="user-prompt">Character Details:</label>
-      <textarea id="user-prompt" placeholder="e.g., A tired detective, haunted by a past case..."></textarea>
+      <div class="textarea-container">
+        <button id="random-idea-button" class="icon-button" title="Generate a random character idea (Ctrl+I)">
+          <img src="icons/bulb.svg" alt="Generate random idea">
+        </button>
+        <textarea id="user-prompt" placeholder="e.g., A tired detective, haunted by a past case..."></textarea>
+      </div>
       <label for="scenarios-container">Scenarios (Optional):</label>
       <div id="scenarios-container">
         <button id="add-scenario-button" type="button">+</button>
         </div>
-        <div id="image-upload-container">
+        <div id="image-upload-container" style="margin-top: 1rem;">
           <label for="image-upload-container">Media (Optional):</label>
           <input type="file" id="image-upload" accept="image/*,video/*" multiple style="display: none;">
           <label for="image-upload" class="image-upload-label" title="Upload media">⤒</label>
@@ -115,7 +120,7 @@
     </div>
     <details open class="output-container out-details">
       <summary class="output-label">Character Card</summary>
-      <pre id="output"></pre>
+      <div id="output" contenteditable="true"></div>
     </details>
     <div id="first-messages-output-container"></div>
     </main>
