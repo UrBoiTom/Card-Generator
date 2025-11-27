@@ -1,16 +1,7 @@
 const GHPATH = '/Card-Generator';
 const APP_PREFIX = 'gppwa_';
-const VERSION = 'version_006'; // Increment the version to trigger an update
+const VERSION = '02939bdf4cc13c951df19589094d4f3d37eefbcc'; // Replaced by build script
 const CACHE_NAME = APP_PREFIX + VERSION;
-
-// The list of URLs for the "app shell" that will be cached on install.
-const APP_SHELL_URLS = [
-  `${GHPATH}/`,
-  `${GHPATH}/index.html`,
-  `${GHPATH}/manifest.webmanifest`,
-  `${GHPATH}/icons/favicon.ico`,
-  `${GHPATH}/icons/icon.png`,
-];
 
 // Respond with cached resources, falling back to the network.
 // This strategy also dynamically caches new assets as they are requested.
@@ -42,14 +33,8 @@ self.addEventListener('fetch', (e) => {
 
 // Cache the app shell on install
 self.addEventListener('install', (e) => {
-  self.skipWaiting(); // Force the waiting service worker to become the active service worker.
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Installing cache : ' + CACHE_NAME);
-      return cache.addAll(APP_SHELL_URLS);
-    })
-  );
-
+  console.log('Service worker installing...');
+  self.skipWaiting();
 });
 
 // Delete old caches on activate
