@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#4285f4"/>
   <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
-  <link rel="canonical" href="https://urboitom.github.io/Card-Generator/" />
+  <link rel="canonical" href="https://urboitom.github.io/Card-Generator" />
   <link rel="manifest" href="manifest.webmanifest">
   <meta charset="UTF-8">
 
@@ -15,17 +15,17 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://urboitom.github.io/Card-Generator/">
+  <meta property="og:url" content="https://urboitom.github.io/Card-Generator">
   <meta property="og:title" content="AI Character Card Generator">
   <meta property="og:description" content="A tool to generate detailed character cards for AI chatbots using Google's Gemini models.">
-  <meta property="og:image" content="https://urboitom.github.io/Card-Generator/Card-Generator.webp">
+  <meta property="og:image" content="https://urboitom.github.io/Card-GeneratorCard-Generator.webp">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://urboitom.github.io/Card-Generator/">
+  <meta property="twitter:url" content="https://urboitom.github.io/Card-Generator">
   <meta property="twitter:title" content="AI Character Card Generator">
   <meta property="twitter:description" content="A tool to generate detailed character cards for AI chatbots using Google's Gemini models.">
-  <meta property="twitter:image" content="https://urboitom.github.io/Card-Generator/Card-Generator.webp">
+  <meta property="twitter:image" content="https://urboitom.github.io/Card-GeneratorCard-Generator.webp">
 
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4025970528061153"
@@ -61,8 +61,9 @@
         <summary>Settings</summary>
         <label for="model-selector">Select Model:</label>
         <select id="model-selector">
-          <option value="gemini-2.5-pro">gemini-2.5-pro</option>
-          <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+          <option value="gemini-2.5-pro">gemini 2.5 pro</option>
+          <option value="gemini-3-pro-preview">gemini 3 pro</option>
+          <option value="gemini-2.5-flash">gemini 2.5 flash</option>
         </select>
         <br>
         <label for="sheet-id">Examples Sheet ID / Enabled:</label>
@@ -145,7 +146,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        const serviceWorkerPath = '/Card-Generator/serviceworker.js';
+        const serviceWorkerPath = '/serviceworker.js';
         navigator.serviceWorker.register(serviceWorkerPath)
           .then((registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
