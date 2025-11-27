@@ -1,6 +1,6 @@
 const GHPATH = '/Card-Generator';
 const APP_PREFIX = 'gppwa_';
-const VERSION = '2b2b3d4d1700df5da351398e1c002e66cc5051e8'; // Replaced by build script
+const VERSION = '5a4c3fdc2edd4a5909b79f3b59de59b4b2357484'; // Replaced by build script
 const CACHE_NAME = APP_PREFIX + VERSION;
 
 // Respond with cached resources, falling back to the network.
